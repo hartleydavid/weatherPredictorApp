@@ -80,12 +80,8 @@ button:active {
   box-shadow: 0 0 6px 2px black;
 }
 
-.react-calendar__tile--now:disabled,
-.react-calendar__tile--active:disabled,
-.react-calendar__tile--hover:disabled,
-.react-calendar__tile--now:disabled:focus,
-.react-calendar__tile--active:disabled:focus,
-.react-calendar__tile--hover:disabled:focus{
-  color: #ff0b0b; /* Example color for disabled dates */
-  pointer-events: none;
+/* Blank out dates before 'todays' date*/
+.before-today{
+  background-color: #48138f; 
+  color: #999; 
 }
