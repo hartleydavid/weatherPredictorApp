@@ -85,3 +85,27 @@ button:active {
   background-color: #48138f; 
   color: #999; 
 }
+
+/* State Selection CSS 
+.react-select-us-states{
+  background-color: #2359eb;
+}*/
+
+/* Custom styles for the select element */
+.custom-select {
+  width: 400px; /* Adjust width as needed */
+  background-color: #2359eb;
+  color: #ffffff;
+}
+
+/* Custom styles for the options */
+.custom-select option {
+  background-color: #183996;
+  color: #ffffff;
+  padding: 8px 12px;
+}
+
+/* Custom styles for the hover effect */
+.custom-select option:hover {
+  background-color: #162f72;
+}

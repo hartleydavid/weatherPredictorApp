@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
+//Import Calendar and State drop-down menu
 import Calendar from 'react-calendar';
-//import 'react-calendar/dist/Calendar.css';
+import SelectUSState from 'react-select-us-states';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
   //The date selected will be todays date by default
   //[variable, function] =useState() :Allows us to assign variables more than once to const value
   const [selectedDate, setSelectedDate] = useState(todaysDate);
+  const [selectedState, setSelectedState] = useState(null);
 
   //Updates the tile class name for all tiles before today to be blanked and all other dates active
   const tileClassName = ({ date }) => {
@@ -27,10 +29,16 @@ function App() {
   };
 
   //When a date is selected, update the selected date
-  const onSelect= (selected) => {
-    //this.setState({selectedDate:e})
-    setSelectedDate(selected);
+  const handleDateSelection= (selection) => {
+    setSelectedDate(selection);
   };
+
+  const handleStateSelection = (selection) => {
+    //console.log('this is the State code:' + newValue);
+	setSelectedState(selection);
+  };
+
+  
 
   return (
     <div className="App">
@@ -44,10 +52,17 @@ function App() {
         minDetail='Month'
         calendarType='US'
         tileClassName={tileClassName}
-        onChange = {onSelect}
+        onChange = {handleDateSelection}
       />
 
+	<SelectUSState 
+	    className="custom-select" // Apply custom class name
+		onChange={handleStateSelection}
+		value = {selectedState}
+	/>
+
       <h1> You selected: {selectedDate.toDateString()}</h1>
+	  <h1> You selected: {selectedState}</h1>
     </div>
   );
 }
