@@ -4,7 +4,11 @@ import './App.css';
 import Calendar from 'react-calendar';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
+import './API_KEY.js';
+
 function App() {
+
+    const key = getKey();
 
   //Todays date
   const todaysDate = new Date();
@@ -70,7 +74,7 @@ function App() {
     <h1> You selected: {selectedDate.toDateString()}</h1>
 
     {/* Google Map */}
-        <LoadScript googleMapsApiKey="AIzaSyDdQCKXUr3a8UKf8OXLIoOq3woMWxMucdE">
+        <LoadScript googleMapsApiKey= {key} >
             <GoogleMap
                 onClick={ev => {
                 const newCoordinates = { lat: ev.latLng.lat(), lng: ev.latLng.lng() };
