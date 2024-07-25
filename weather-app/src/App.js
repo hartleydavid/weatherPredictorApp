@@ -4,10 +4,11 @@ import './App.css';
 import Calendar from 'react-calendar';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
-import './API_KEY.js';
+import getKey from './API_KEY.js';
 
 function App() {
 
+    //Get the API key for google maps API
     const key = getKey();
 
   //Todays date
