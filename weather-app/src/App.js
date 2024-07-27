@@ -4,14 +4,11 @@ import './App.css';
 import Calendar from 'react-calendar';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
+import Weather from './Weather.js';
+
 import mapKey from './MAP_API_KEY.js';
-import weatherKey from './WEATHER_API_KEY.js';
 
 function App() {
-
-	//Get the API key for google maps and weather API
-    const mapAPIKey = mapKey();
-	const weatherAPIKey = weatherKey();
 
 	//Todays date
 	const todaysDate = new Date();
@@ -56,42 +53,43 @@ function App() {
 		margin: '20px auto'
 	};
 
-
-
 	return (
 		
 		<div className="App">
-		<header>  Weather Prediction App </header>
-		<h2> Please select a valid date. </h2>
-		<p> Valid dates are from todays date and on.</p>
+			<header>  Weather Prediction App </header>
+			<h2> Please select a valid date. </h2>
+			<p> Valid dates are from todays date and on.</p>
 
-		{/*Create calendar that only allows selections of todays date and forward, no past dates*/}
-		<Calendar 
-			minDate={todaysDate}
-			minDetail='Month'
-			calendarType='gregory'
-			tileClassName={tileClassName}
-			onChange = {handleDateSelection}
-		/>
+			{/*Create calendar that only allows selections of todays date and forward, no past dates*/}
+			<Calendar 
+				minDate={todaysDate}
+				minDetail='Month'
+				calendarType='gregory'
+				tileClassName={tileClassName}
+				onChange = {handleDateSelection}
+			/>
 
-		<h1> You selected: {selectedDate.toDateString()}</h1>
+			<h1> You selected: {selectedDate.toDateString()}</h1>
 
-		{/* Google Map */}
-			<LoadScript googleMapsApiKey= {mapAPIKey}>
+			{/* Google Map */}
+			<LoadScript googleMapsApiKey= {mapKey()}>
 				<GoogleMap
 					onClick={ev => {
-					const newCoordinates = { lat: ev.latLng.lat(), lng: ev.latLng.lng() };
-					console.log('Map clicked at:', newCoordinates); // Debugging step
-					handleCoordinateSelection(newCoordinates);
-					//handleCoordinateSelection({ lat: ev.latLng.lat(), lng: ev.latLng.lng() });
+						const newCoordinates = { lat: ev.latLng.lat(), lng: ev.latLng.lng() };
+						//console.log('Map clicked at:', newCoordinates); 
+						handleCoordinateSelection(newCoordinates);
 					}}
 					mapContainerStyle={mapContainerStyle}
 					center={coordinates}
-					zoom={10}	
-				> 
-			</GoogleMap>
+					zoom={10}>
+				</GoogleMap>
 			</LoadScript>
-			</div>
+
+			<Weather lat={coordinates.lat} lng ={coordinates.lng} 
+					year={selectedDate.getFullYear()} month = {selectedDate.getMonth()} 
+					date={selectedDate.getDate()}>
+			</Weather>
+		</div>
 	);
   
 }
