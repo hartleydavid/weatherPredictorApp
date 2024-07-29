@@ -22,4 +22,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-API_KEY.js
+MAP_API_KEY.js
+WEATHER_API_KEY.js
