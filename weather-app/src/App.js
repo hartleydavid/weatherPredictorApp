@@ -24,7 +24,6 @@ function App() {
 	//The coordinates we will use
 	const [coordinates, setCoordinates] = useState(defaultPosition);
 
-
 	//Updates the tile class name for all tiles before today to be blanked and all other dates active
 	const tileClassName = ({ date }) => {
 		// Check if the date is yesterday or before
@@ -86,8 +85,9 @@ function App() {
 			</LoadScript>
 
 			<Weather lat={coordinates.lat} lng ={coordinates.lng} 
+					selectedDate = {selectedDate}
 					year={selectedDate.getFullYear()} month = {selectedDate.getMonth()} 
-					date={selectedDate.getDate()}>
+					date={selectedDate.getDate()} today = {todaysDate}>
 			</Weather>
 		</div>
 	);
