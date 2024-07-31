@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import './App.css';
+import './css/App.css';
+import './css/Calendar.css';
+import './css/Table.css';
 //Import Calendar and State drop-down menu
 import Calendar from 'react-calendar';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-import Weather from './Weather.js';
+import Weather from './components/Weather.js';
 
-import mapKey from './MAP_API_KEY.js';
+import mapKey from './api/MAP_API_KEY.js';
 
 function App() {
 
@@ -23,6 +25,9 @@ function App() {
 
 	//The coordinates we will use
 	const [coordinates, setCoordinates] = useState(defaultPosition);
+
+	// State for forcing marker update. Key updates (increments) on every click, forcing marker to update with new 'key'
+	const [key, setKey] = useState(0); 
 
 	//Updates the tile class name for all tiles before today to be blanked and all other dates active
 	const tileClassName = ({ date }) => {
@@ -44,51 +49,61 @@ function App() {
 	//When a area is selected, update the coordinates saved
 	const handleCoordinateSelection = (selection) => {
 		setCoordinates(selection);
+		setKey(prevKey => prevKey + 1); // Force update by changing key
+
 	};
 
+	//Map Styling
 	const mapContainerStyle = {
-		width: '500px',
+		width: '74.5%',
 		height: '500px',
 		margin: '20px auto'
 	};
 
+
 	return (
 		
 		<div className="App">
-			<header>  Weather Prediction App </header>
-			<h2> Please select a valid date. </h2>
-			<p> Valid dates are from todays date and on.</p>
+			<header>  Weather App </header>
+			<h2> Please select desired date.</h2>
+			<p> Valid dates are from today to 300 days in the future.</p>
 
-			{/*Create calendar that only allows selections of todays date and forward, no past dates*/}
-			<Calendar 
-				minDate={todaysDate}
-				minDetail='Month'
-				calendarType='gregory'
-				tileClassName={tileClassName}
-				onChange = {handleDateSelection}
-			/>
+			<div className='content'>
+				{/*Create calendar that only allows selections of todays date and forward, no past dates*/}
+				<div className='calendar-container'>
+					<Calendar 
+						minDate={todaysDate}
+						minDetail='Month'
+						calendarType='gregory'
+						tileClassName={tileClassName}
+						onChange = {handleDateSelection}
+					/>
+				</div>
 
-			<h1> You selected: {selectedDate.toDateString()}</h1>
+				<div className='weather-container'>
+					<h1> Date selected: {selectedDate.toDateString()}</h1>
 
+					<Weather lat={coordinates.lat} lng ={coordinates.lng} 
+							selectedDate = {selectedDate} today = {todaysDate}>
+					</Weather>
+				</div>
+			</div>
 			{/* Google Map */}
 			<LoadScript googleMapsApiKey= {mapKey()}>
 				<GoogleMap
 					onClick={ev => {
 						const newCoordinates = { lat: ev.latLng.lat(), lng: ev.latLng.lng() };
-						//console.log('Map clicked at:', newCoordinates); 
 						handleCoordinateSelection(newCoordinates);
 					}}
 					mapContainerStyle={mapContainerStyle}
 					center={coordinates}
-					zoom={10}>
+					zoom={10}
+				>
+                    <Marker key={key} position={coordinates} />
+					
 				</GoogleMap>
-			</LoadScript>
 
-			<Weather lat={coordinates.lat} lng ={coordinates.lng} 
-					selectedDate = {selectedDate}
-					year={selectedDate.getFullYear()} month = {selectedDate.getMonth()} 
-					date={selectedDate.getDate()} today = {todaysDate}>
-			</Weather>
+			</LoadScript>
 		</div>
 	);
   

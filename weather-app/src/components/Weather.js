@@ -1,4 +1,4 @@
-import weatherKey from './WEATHER_API_KEY.js';
+import weatherKey from '../api/WEATHER_API_KEY.js';
 import React, { useState, useEffect } from 'react';
 
 
@@ -11,7 +11,6 @@ function Weather(props){
 
     //API url
     let url = "";
-    let isFuture = null;
     //Find the difference in days between today and the selected date
     const differenceInDays = (Math.abs(props.today - props.selectedDate)) / (1000 * 3600 * 24);
 
@@ -19,14 +18,12 @@ function Weather(props){
     if (differenceInDays > 14){
         //Call the future API url (14-300 day)
         url = `http://api.weatherapi.com/v1/future.json?key=${key}&q=${coordinates}&dt=${date}`;
-        isFuture = true;
     //If the difference is > 300, print error for now
     }else if (differenceInDays > 300){
         console.error("Day selection limit met or passed. Please select an earlier date.");
     //Otherwise, call the current API url, for today < 14 days 
     }else{
         url = `http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${coordinates}&dt=${date}`;
-        isFuture = false;
     }
 
     //The JSON response data, loading state, and error constants
@@ -68,31 +65,34 @@ function Weather(props){
     }
 
     //Display data according to the API url that was used
-    if (isFuture){
-        return (
-            <div name="Weather">
-                {/*Display Weather Data*/}
-                <h1> { data.location.name }, { data.location.region } </h1>
-                <h1> Min: { data.forecast.forecastday[0].day.mintemp_f} </h1>
-                <h1> Max: { data.forecast.forecastday[0].day.maxtemp_f} </h1>
-                <h1> Avg: { data.forecast.forecastday[0].day.avgtemp_f} </h1>
-                <h1> Text: { data.forecast.forecastday[0].day.condition.text} </h1>
-                <img src={data.forecast.forecastday[0].day.condition.icon} alt={data.forecast.forecastday[0].day.condition.text} />                
+    return (
+        <div className="Weather">
+            {/*Display Weather Data*/}
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Average Temp.</th>
+                        <th>Min Temp.</th>
+                        <th>Max Temp.</th>
+                        <th>Condition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{data.location.name}, {data.location.region}</td>
+                        <td>{data.forecast.forecastday[0].day.avgtemp_f}&deg;F</td>
+                        <td>{data.forecast.forecastday[0].day.mintemp_f}&deg;F</td>
+                        <td>{data.forecast.forecastday[0].day.maxtemp_f}&deg;F</td>
+                        <td>{data.forecast.forecastday[0].day.condition.text}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <img src={data.forecast.forecastday[0].day.condition.icon} 
+                alt={data.forecast.forecastday[0].day.condition.text} />
             </div>
         );
-    }else{
-        return (
-            <div name="Weather">
-                {/*Display Weather Data*/}
-                <h1> { data.location.name }, { data.location.region } </h1>
-                <h1> Min: { data.current.temp_f} </h1>
-                <h1> Text: { data.current.condition.text} </h1>
-                <img src={data.current.condition.icon} alt={ data.current.condition.text} />                
-            </div>
-        );
-    }
-    
-
 }
 
 export default Weather;

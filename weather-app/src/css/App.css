@@ -1,0 +1,49 @@
+.App {
+  text-align: center;
+  background-color: #4b505c;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+header {
+  font-size: calc(50px + 2vmin);
+  color: white;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between; /* Space out the children elements */
+  margin-bottom: 20px; /* Space between content and map */
+}
+
+/* Styling for calendar container */
+.calendar-container {
+  flex: 1; /* Flex-grow to fill available space */
+  margin-right: 10px; /* Space between calendar and weather */
+}
+
+.weather-container {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items:start;
+}
+
+.weather-container h1{
+  margin-left: 10px;
+  margin-bottom: 10px; /* Space between heading and weather content */
+}
+
+/* Styling for weather container */
+.weather-container .Weather{
+  display: flex;
+  align-items: center;
+}
+
+.weather-container img{
+  width: 100px;
+  height: auto;
+  margin-right: 15px;
+}

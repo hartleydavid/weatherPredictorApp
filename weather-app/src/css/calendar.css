@@ -1,0 +1,94 @@
+.react-calendar {
+    max-width: 700px;
+    margin: auto;
+    margin-top: 20px;
+    background-color: #220e94;
+    padding: 10px;
+    border-radius: 3px;
+  }
+  
+  /* Navigation styles */
+  .react-calendar__navigation {
+    display: flex;
+  }
+  
+  .react-calendar__navigation__label {
+    font-weight: bold;
+  }
+  
+  .react-calendar__navigation__arrow {
+    flex-grow: 0.333;
+  }
+  
+  .react-calendar__month-view__weekdays {
+    text-align: center;
+    color: white;
+  }
+  
+  /* Button styles */
+  button {
+    margin: 3px;
+    background-color: #2359eb;
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    padding: 20px;
+  }
+  
+  button:hover {
+    background-color: #183996;
+  }
+  
+  button:active {
+    background-color: #5981ee;
+  }
+  
+  /* Day styles */
+  .react-calendar__month-view__days {
+    display: grid !important;
+    grid-template-columns: 14.2% 14.2% 14.2% 14.2% 14.2% 14.2% 14.2%; 
+  }
+  
+  .react-calendar__month-view__days__day--neighboringMonth {
+    opacity: 0.7;
+  }
+  
+  .react-calendar__month-view__days__day--weekend {
+    color: #dfdfdf;
+  }
+  
+  /* Tile Styles */
+  .react-calendar__tile {
+    max-width: initial;
+  }
+  
+  .react-calendar__tile--range {
+    box-shadow: 0 0 6px 2px black;
+  }
+  
+  /* Blank out dates before 'todays' date*/
+  .before-today{
+    background-color: #48138f; 
+    color: #999; 
+  }
+  
+  /* Custom styles for the select element */
+  .custom-select {
+    width: 400px; /* Adjust width as needed */
+    background-color: #2359eb;
+    color: #ffffff;
+  }
+  
+  /* Custom styles for the options */
+  .custom-select option {
+    background-color: #183996;
+    color: #ffffff;
+    padding: 8px 12px;
+  }
+  
+  /* Custom styles for the hover effect */
+  .custom-select option:hover {
+    background-color: #162f72;
+  }
+  
+  
