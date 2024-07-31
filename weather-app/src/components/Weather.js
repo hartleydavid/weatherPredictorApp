@@ -66,30 +66,31 @@ function Weather(props){
 
     //Display data according to the API url that was used
     return (
-        <div name="Weather">
+        <div className="Weather">
             {/*Display Weather Data*/}
-            <img src={data.forecast.forecastday[0].day.condition.icon} 
-                alt={data.forecast.forecastday[0].day.condition.text} />
+            
             <table>
                 <thead>
                     <tr>
                         <th>Location</th>
-                        <th>Average</th>
-                        <th>Min</th>
-                        <th>Max</th>
+                        <th>Average Temp.</th>
+                        <th>Min Temp.</th>
+                        <th>Max Temp.</th>
                         <th>Condition</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{data.location.name}, {data.location.region}</td>
-                        <td>{data.forecast.forecastday[0].day.avgtemp_f}</td>
-                        <td>{data.forecast.forecastday[0].day.mintemp_f}</td>
-                        <td>{data.forecast.forecastday[0].day.maxtemp_f}</td>
+                        <td>{data.forecast.forecastday[0].day.avgtemp_f}&deg;F</td>
+                        <td>{data.forecast.forecastday[0].day.mintemp_f}&deg;F</td>
+                        <td>{data.forecast.forecastday[0].day.maxtemp_f}&deg;F</td>
                         <td>{data.forecast.forecastday[0].day.condition.text}</td>
                     </tr>
                 </tbody>
             </table>
+            <img src={data.forecast.forecastday[0].day.condition.icon} 
+                alt={data.forecast.forecastday[0].day.condition.text} />
             </div>
         );
 }

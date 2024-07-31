@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './css/App.css';
-import './css/calendar.css';
-import './css/table.css';
+import './css/Calendar.css';
+import './css/Table.css';
 //Import Calendar and State drop-down menu
 import Calendar from 'react-calendar';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
@@ -26,6 +26,9 @@ function App() {
 	//The coordinates we will use
 	const [coordinates, setCoordinates] = useState(defaultPosition);
 
+	// State for forcing marker update. Key updates (increments) on every click, forcing marker to update with new 'key'
+	const [key, setKey] = useState(0); 
+
 	//Updates the tile class name for all tiles before today to be blanked and all other dates active
 	const tileClassName = ({ date }) => {
 		// Check if the date is yesterday or before
@@ -46,10 +49,13 @@ function App() {
 	//When a area is selected, update the coordinates saved
 	const handleCoordinateSelection = (selection) => {
 		setCoordinates(selection);
+		setKey(prevKey => prevKey + 1); // Force update by changing key
+
 	};
 
+	//Map Styling
 	const mapContainerStyle = {
-		width: '80%',
+		width: '74.5%',
 		height: '500px',
 		margin: '20px auto'
 	};
@@ -62,21 +68,26 @@ function App() {
 			<h2> Please select desired date.</h2>
 			<p> Valid dates are from today to 300 days in the future.</p>
 
-			{/*Create calendar that only allows selections of todays date and forward, no past dates*/}
-			<Calendar 
-				minDate={todaysDate}
-				minDetail='Month'
-				calendarType='gregory'
-				tileClassName={tileClassName}
-				onChange = {handleDateSelection}
-			/>
+			<div className='content'>
+				{/*Create calendar that only allows selections of todays date and forward, no past dates*/}
+				<div className='calendar-container'>
+					<Calendar 
+						minDate={todaysDate}
+						minDetail='Month'
+						calendarType='gregory'
+						tileClassName={tileClassName}
+						onChange = {handleDateSelection}
+					/>
+				</div>
 
-			<h1> You selected: {selectedDate.toDateString()}</h1>
+				<div className='weather-container'>
+					<h1> Date selected: {selectedDate.toDateString()}</h1>
 
-			<Weather lat={coordinates.lat} lng ={coordinates.lng} 
-					selectedDate = {selectedDate} today = {todaysDate}>
-			</Weather>
-
+					<Weather lat={coordinates.lat} lng ={coordinates.lng} 
+							selectedDate = {selectedDate} today = {todaysDate}>
+					</Weather>
+				</div>
+			</div>
 			{/* Google Map */}
 			<LoadScript googleMapsApiKey= {mapKey()}>
 				<GoogleMap
@@ -88,7 +99,8 @@ function App() {
 					center={coordinates}
 					zoom={10}
 				>
-                    <Marker key = {0} position={coordinates} />
+                    <Marker key={key} position={coordinates} />
+					
 				</GoogleMap>
 
 			</LoadScript>
