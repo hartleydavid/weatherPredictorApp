@@ -7,9 +7,18 @@
   flex-direction: column;
 }
 
+body{
+  font-family: "Roboto";
+  color: white;
+}
+
 header {
   font-size: calc(50px + 2vmin);
-  color: white;
+  font-weight: 2000;
+}
+
+p {
+  font-style: italic;
 }
 
 .content {

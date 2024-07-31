@@ -1,32 +1,42 @@
 import React, { useState } from 'react';
+//Import CSS files
 import './css/App.css';
 import './css/Calendar.css';
 import './css/Table.css';
-//Import Calendar and State drop-down menu
-import Calendar from 'react-calendar';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
+//Import Calendar 
+import Calendar from 'react-calendar';
+//Map imports
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import mapKey from './api/MAP_API_KEY.js'; //API key for map
+
+//Components
 import Weather from './components/Weather.js';
 
-import mapKey from './api/MAP_API_KEY.js';
 
 function App() {
 
-	//Todays date
-	const todaysDate = new Date();
-	//Default position (Seattle Washington)
-	const defaultPosition  = { lat: 47.62190104905558, lng: -122.33379948020307 };
+	
+	const todaysDate = new Date(); //Todays date
+	
+	const defaultPosition  = { //Default position (Seattle Washington)
+		lat: 47.62190104905558, 
+		lng: -122.33379948020307 
+	};
 
-	//The minimum date that can be selected. Yesterday based on todays date
-	const minDate = new Date(todaysDate.getFullYear(), todaysDate.getMonth(), todaysDate.getDate()-1);
+	const minDate = new Date( //The minimum date that can be selected. Yesterday based on todays date
+		todaysDate.getFullYear(), 
+		todaysDate.getMonth(), 
+		todaysDate.getDate()-1
+	);
+
 	//The date selected will be todays date by default
-	//[variable, function] =useState() :Allows us to assign variables more than once to const value
 	const [selectedDate, setSelectedDate] = useState(todaysDate);
 
 	//The coordinates we will use
 	const [coordinates, setCoordinates] = useState(defaultPosition);
 
-	// State for forcing marker update. Key updates (increments) on every click, forcing marker to update with new 'key'
+	//State for forcing marker update. Key updates (increments) on every click, forcing marker update
 	const [key, setKey] = useState(0); 
 
 	//Updates the tile class name for all tiles before today to be blanked and all other dates active
@@ -49,8 +59,8 @@ function App() {
 	//When a area is selected, update the coordinates saved
 	const handleCoordinateSelection = (selection) => {
 		setCoordinates(selection);
-		setKey(prevKey => prevKey + 1); // Force update by changing key
-
+		//Increment key to force marker update
+		setKey(prevKey => prevKey + 1);
 	};
 
 	//Map Styling
@@ -60,13 +70,13 @@ function App() {
 		margin: '20px auto'
 	};
 
-
+	//Return the HTML code for the app
 	return (
 		
 		<div className="App">
 			<header>  Weather App </header>
-			<h2> Please select desired date.</h2>
-			<p> Valid dates are from today to 300 days in the future.</p>
+			<h3> Please select desired date.</h3>
+			<p> (Valid dates are from today to 300 days in the future.)</p>
 
 			<div className='content'>
 				{/*Create calendar that only allows selections of todays date and forward, no past dates*/}
@@ -92,18 +102,16 @@ function App() {
 			<LoadScript googleMapsApiKey= {mapKey()}>
 				<GoogleMap
 					onClick={ev => {
-						const newCoordinates = { lat: ev.latLng.lat(), lng: ev.latLng.lng() };
-						handleCoordinateSelection(newCoordinates);
+						handleCoordinateSelection({ lat: ev.latLng.lat(), lng: ev.latLng.lng() });
 					}}
 					mapContainerStyle={mapContainerStyle}
 					center={coordinates}
 					zoom={10}
 				>
-                    <Marker key={key} position={coordinates} />
-					
+                <Marker key={key} position={coordinates} />	
 				</GoogleMap>
-
 			</LoadScript>
+
 		</div>
 	);
   

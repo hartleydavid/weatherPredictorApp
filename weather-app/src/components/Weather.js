@@ -15,12 +15,13 @@ function Weather(props){
     const differenceInDays = (Math.abs(props.today - props.selectedDate)) / (1000 * 3600 * 24);
 
     //If the difference is greater than 14 days
-    if (differenceInDays > 14){
+    if (differenceInDays > 14 && differenceInDays <= 300){
         //Call the future API url (14-300 day)
         url = `http://api.weatherapi.com/v1/future.json?key=${key}&q=${coordinates}&dt=${date}`;
     //If the difference is > 300, print error for now
     }else if (differenceInDays > 300){
         console.error("Day selection limit met or passed. Please select an earlier date.");
+        alert(`Please select a date within 300 days from todays date (${props.today.toDateString()})`);
     //Otherwise, call the current API url, for today < 14 days 
     }else{
         url = `http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${coordinates}&dt=${date}`;
