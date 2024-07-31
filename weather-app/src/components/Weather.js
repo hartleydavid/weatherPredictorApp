@@ -1,4 +1,4 @@
-import weatherKey from './WEATHER_API_KEY.js';
+import weatherKey from '../api/WEATHER_API_KEY.js';
 import React, { useState, useEffect } from 'react';
 
 
@@ -65,15 +65,31 @@ function Weather(props){
     }
 
     //Display data according to the API url that was used
-        return (
-            <div name="Weather">
-                {/*Display Weather Data*/}
-                <h1> { data.location.name }, { data.location.region } </h1>
-                <h1> Min: { data.forecast.forecastday[0].day.mintemp_f} </h1>
-                <h1> Max: { data.forecast.forecastday[0].day.maxtemp_f} </h1>
-                <h1> Avg: { data.forecast.forecastday[0].day.avgtemp_f} </h1>
-                <h1> Text: { data.forecast.forecastday[0].day.condition.text} </h1>
-                <img src={data.forecast.forecastday[0].day.condition.icon} alt={data.forecast.forecastday[0].day.condition.text} />                
+    return (
+        <div name="Weather">
+            {/*Display Weather Data*/}
+            <img src={data.forecast.forecastday[0].day.condition.icon} 
+                alt={data.forecast.forecastday[0].day.condition.text} />
+            <table>
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Average</th>
+                        <th>Min</th>
+                        <th>Max</th>
+                        <th>Condition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{data.location.name}, {data.location.region}</td>
+                        <td>{data.forecast.forecastday[0].day.avgtemp_f}</td>
+                        <td>{data.forecast.forecastday[0].day.mintemp_f}</td>
+                        <td>{data.forecast.forecastday[0].day.maxtemp_f}</td>
+                        <td>{data.forecast.forecastday[0].day.condition.text}</td>
+                    </tr>
+                </tbody>
+            </table>
             </div>
         );
 }

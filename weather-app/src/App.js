@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import './App.css';
+import './css/App.css';
+import './css/calendar.css';
+import './css/table.css';
 //Import Calendar and State drop-down menu
 import Calendar from 'react-calendar';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-import Weather from './Weather.js';
+import Weather from './components/Weather.js';
 
-import mapKey from './MAP_API_KEY.js';
+import mapKey from './api/MAP_API_KEY.js';
 
 function App() {
 
@@ -47,17 +49,18 @@ function App() {
 	};
 
 	const mapContainerStyle = {
-		width: '500px',
+		width: '80%',
 		height: '500px',
 		margin: '20px auto'
 	};
 
+
 	return (
 		
 		<div className="App">
-			<header>  Weather Prediction App </header>
-			<h2> Please select a valid date. </h2>
-			<p> Valid dates are from todays date and on.</p>
+			<header>  Weather App </header>
+			<h2> Please select desired date.</h2>
+			<p> Valid dates are from today to 300 days in the future.</p>
 
 			{/*Create calendar that only allows selections of todays date and forward, no past dates*/}
 			<Calendar 
@@ -70,25 +73,25 @@ function App() {
 
 			<h1> You selected: {selectedDate.toDateString()}</h1>
 
+			<Weather lat={coordinates.lat} lng ={coordinates.lng} 
+					selectedDate = {selectedDate} today = {todaysDate}>
+			</Weather>
+
 			{/* Google Map */}
 			<LoadScript googleMapsApiKey= {mapKey()}>
 				<GoogleMap
 					onClick={ev => {
 						const newCoordinates = { lat: ev.latLng.lat(), lng: ev.latLng.lng() };
-						//console.log('Map clicked at:', newCoordinates); 
 						handleCoordinateSelection(newCoordinates);
 					}}
 					mapContainerStyle={mapContainerStyle}
 					center={coordinates}
-					zoom={10}>
+					zoom={10}
+				>
+                    <Marker key = {0} position={coordinates} />
 				</GoogleMap>
-			</LoadScript>
 
-			<Weather lat={coordinates.lat} lng ={coordinates.lng} 
-					selectedDate = {selectedDate}
-					year={selectedDate.getFullYear()} month = {selectedDate.getMonth()} 
-					date={selectedDate.getDate()} today = {todaysDate}>
-			</Weather>
+			</LoadScript>
 		</div>
 	);
   
